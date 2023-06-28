@@ -1,21 +1,38 @@
 <script setup lang="ts">
-defineProps<{
-  msg: string
-}>()
+import { ref, watch } from "vue";
+
+const todoId = ref(0);
+const todoData = ref(null);
+
+const fetchData = async () => {
+  todoData.value = null;
+  const res = await fetch(`https://rickandmortyapi.com/api/character/${todoId.value},22`);
+  todoData.value = await res.json();
+};
+
+fetchData();
+
+watch(todoId, fetchData);
 </script>
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
-    </h3>
+    <button @click="todoId++">fetch next todo</button>
+    <h1>
+      {{ todoId }}
+    </h1>
+    <p v-if="!todoData">Loading...</p>
+    <p v-else>
+      {{ todoData }}
+    </p>
   </div>
 </template>
 
 <style scoped>
+#reverse {
+  color: red;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;

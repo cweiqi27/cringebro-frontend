@@ -1,6 +1,7 @@
 {
   "name": "cringebro-frontend",
   "version": "0.0.0",
+  "author": "cweiqi27",
   "private": true,
   "scripts": {
     "dev": "vite",
